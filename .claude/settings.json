@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "unslop@anthropic-plugin-directory": true
+  }
+}

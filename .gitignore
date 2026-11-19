@@ -1,0 +1,51 @@
+# Dependensi
+node_modules/
+
+# Hasil build (dibuat ulang oleh `npm run build`)
+/build/
+/.react-router/
+dist/
+dist-ssr/
+
+# Environment & rahasia (contoh boleh di-commit)
+.env
+.env.*
+!.env.example
+*.local
+
+# Cache & laporan
+.eslintcache
+.vite/
+coverage/
+*.tsbuildinfo
+
+# Log
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Konfigurasi lokal hosting (dibuat CLI saat deploy)
+.vercel/
+.netlify/
+.wrangler/
+
+# Pengaturan Claude Code pribadi (settings.json bersama tetap di-commit)
+.claude/settings.local.json
+
+# Skill AI hasil install (bisa dipasang ulang dari skills-lock.json)
+.agents/skills/
+
+# Editor & OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
