@@ -12,7 +12,7 @@ export function landingJsonLd(c) {
     description: c.site.tagline,
     email: c.site.email,
     telephone: `+${c.site.whatsapp}`,
-    sameAs: [c.site.instagram, c.site.playStore, c.site.appStore],
+    sameAs: [...c.site.socials.map((s) => s.url), c.site.playStore, c.site.appStore],
   };
 
   const website = {
@@ -34,10 +34,10 @@ export function landingJsonLd(c) {
       item: {
         "@type": "Course",
         name: `Program ${p.name} — Bimbingan UKAI`,
-        description: `Bimbingan persiapan UKAI CBT & OSCE, ${p.sessions}x pertemuan (intensif ${p.intensive}, online ${p.online}).`,
+        description: `Bimbingan persiapan UKAI CBT & OSCE, ${p.sessions}x pertemuan (${p.features.filter((f) => f.value).map((f) => `${f.label} ${f.value}`).join(", ")}).`,
         provider: { "@id": `${SITE_URL}/#organization` },
         inLanguage: "id",
-        offers: { "@type": "Offer", category: "Paid", price: p.price, priceCurrency: "IDR", url: `${SITE_URL}/#program` },
+        url: `${SITE_URL}/program/${p.id}`,
         hasCourseInstance: { "@type": "CourseInstance", courseMode: "Blended", courseWorkload: `P${p.sessions}D` },
       },
     })),

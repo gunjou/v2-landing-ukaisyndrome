@@ -1,4 +1,6 @@
 import { useLoaderData } from "react-router";
+import AlumniWall from "../sections/AlumniWall";
+import BlogPreview from "../sections/BlogPreview";
 import ClosingCta from "../sections/ClosingCta";
 import DownloadApp from "../sections/DownloadApp";
 import Faq from "../sections/Faq";
@@ -6,16 +8,18 @@ import Hero from "../sections/Hero";
 import Mentors from "../sections/Mentors";
 import Modules from "../sections/Modules";
 import Network from "../sections/Network";
+import PassRate from "../sections/PassRate";
 import Programs from "../sections/Programs";
 import Steps from "../sections/Steps";
-import Testimonials from "../sections/Testimonials";
 import { landingJsonLd } from "../seo-jsonld";
 import { seo } from "../seo";
 import { getLandingContent } from "../services/landing";
+import { getPosts } from "../services/blog";
 
 // Dijalankan saat build (prerender), sehingga konten ikut tertanam di HTML.
 export async function loader() {
-  return getLandingContent();
+  const [content, { posts }] = await Promise.all([getLandingContent(), getPosts()]);
+  return { ...content, posts: posts.slice(0, 3) }; // 3 artikel terbaru
 }
 
 export function meta({ data }) {
@@ -34,16 +38,19 @@ export default function Home() {
 
   return (
     <main>
+      {/* Alur cerita: janji → bukti (angka, manusia) → siapa & apa (mentor, modul, sebaran kelas) → cara mulai (alur) → penawaran → keberatan → bacaan → ajakan → aplikasi */}
       <Hero site={c.site} stats={c.stats} waLink={waLink} />
-      <Network network={c.network} />
+      <PassRate passRates={c.passRates} />
+      <AlumniWall alumni={c.alumni} />
       <Mentors mentors={c.mentors} />
       <Modules modules={c.modules} />
+      <Network network={c.network} />
       <Steps steps={c.steps} />
       <Programs programs={c.programs} sharedFeatures={c.sharedFeatures} guaranteeTerms={c.guaranteeTerms} waLink={waLink} />
-      <Testimonials testimonials={c.testimonials} />
-      <DownloadApp site={c.site} />
       <Faq faqs={c.faqs} waLink={waLink} />
-      <ClosingCta waLink={waLink} />
+      <BlogPreview posts={c.posts} />
+      <ClosingCta waLink={waLink} students={c.stats[0]} />
+      <DownloadApp site={c.site} />
     </main>
   );
 }

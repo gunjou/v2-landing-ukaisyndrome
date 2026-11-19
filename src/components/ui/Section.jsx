@@ -29,3 +29,20 @@ export function SectionHeader({ eyebrow, title, description, align = "left", cla
     </div>
   );
 }
+
+// Kepala halaman (bukan beranda): latar merah, h1, deskripsi, slot `children` (mis. tombol), `aside` (ilustrasi di kanan, mulai md).
+export function PageHeader({ eyebrow, title, description, children, aside }) {
+  return (
+    <header className="tone-brand">
+      <Container className={cn("py-14 md:py-20", aside && "grid items-center gap-8 md:grid-cols-[1.5fr_1fr]")}>
+        <div>
+          {eyebrow && <Eyebrow className="mb-3">{eyebrow}</Eyebrow>}
+          <Heading as="h1" className="max-w-3xl">{title}</Heading>
+          {description && <Text size="lg" className="mt-4 max-w-2xl">{description}</Text>}
+          {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
+        </div>
+        {aside}
+      </Container>
+    </header>
+  );
+}

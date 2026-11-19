@@ -5,14 +5,25 @@ import {
   Button,
   Card,
   Container,
+  CountUp,
   Divider,
   Eyebrow,
   Footer,
   Heading,
   Highlight,
   Logo,
+  Mascot,
+  MascotFace,
+  MascotGraduate,
+  Marquee,
+  AppleLogo,
+  GooglePlay,
+  Instagram,
+  TikTok,
+  MascotResult,
   Navbar,
   Reveal,
+  PageHeader,
   SectionHeader,
   Tabs,
   Text,
@@ -27,7 +38,7 @@ export function meta() {
 
 const sample = {
   links: [
-    { label: "Capaian", href: "#capaian" },
+    { label: "Sebaran Kelas", href: "#sebaran" },
     { label: "Mentor", href: "#mentor" },
     { label: "Modul", href: "#modul" },
     { label: "Program", href: "#program" },
@@ -40,6 +51,10 @@ const sample = {
 
 const sections = [
   ["logo", "Logo"],
+  ["mascot", "Mascot"],
+  ["marquee", "Marquee"],
+  ["brand-icons", "BrandIcons"],
+  ["countup", "CountUp"],
   ["warna", "Warna"],
   ["tipografi", "Tipografi"],
   ["button", "Button"],
@@ -100,6 +115,49 @@ export default function UiKit() {
             <div className="rounded-xl bg-ink p-4"><Logo className="size-16 text-white" /></div>
             <Logo className="size-16 text-brand" />
             <Logo className="size-8" />
+          </div>
+        </Demo>
+
+        <Demo id="mascot" title="Mascot" file="Mascot.jsx">
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="tone-brand rounded-xl p-6"><Mascot className="mx-auto max-w-64" /></div>
+            <div className="rounded-xl border border-line p-6"><Mascot className="mx-auto max-w-64" /></div>
+            <div className="tone-brand rounded-xl p-6"><MascotGraduate className="mx-auto max-w-64" /></div>
+            <Reveal className="rounded-xl border border-line p-6"><MascotResult className="mx-auto max-w-64" /></Reveal>
+            <div className="flex items-center gap-2 rounded-xl border border-line p-6">
+              <MascotFace className="size-10" /><MascotFace className="size-10" /><MascotFace className="size-10 text-line" />
+            </div>
+          </div>
+        </Demo>
+
+        <Demo id="brand-icons" title="BrandIcons" file="BrandIcons.jsx">
+          <div className="flex items-center gap-6 text-fg">
+            <GooglePlay className="size-8" /><AppleLogo className="size-8" /><TikTok className="size-8" /><Instagram className="size-8" />
+          </div>
+        </Demo>
+
+        <Demo id="marquee" title="Marquee" file="Marquee.jsx">
+          <Marquee
+            items={["Satu", "Dua", "Tiga", "Empat", "Lima"]}
+            getKey={(t) => t}
+            render={(t) => <Card className="w-40 text-center font-semibold">{t}</Card>}
+            perItem={2}
+          />
+          <Marquee
+            className="mt-4"
+            reverse
+            items={["Satu", "Dua", "Tiga", "Empat", "Lima"]}
+            getKey={(t) => t}
+            render={(t) => <Card className="w-40 text-center">{t}</Card>}
+            perItem={2}
+          />
+        </Demo>
+
+        <Demo id="countup" title="CountUp" file="CountUp.jsx">
+          <div className="flex flex-wrap gap-8 text-4xl font-bold">
+            <CountUp value="5000+" />
+            <CountUp value="92%" />
+            <CountUp value="1.250" />
           </div>
         </Demo>
 
@@ -197,6 +255,11 @@ export default function UiKit() {
               </div>
             ))}
             <SectionHeader align="center" eyebrow="align=&quot;center&quot;" title="Pilih jalur belajarmu" description="SectionHeader rata tengah." />
+            <div className="overflow-hidden rounded-xl">
+              <PageHeader eyebrow="PageHeader" title="Judul halaman (h1)" description="Kepala halaman selain beranda.">
+                <Button>Aksi utama</Button>
+              </PageHeader>
+            </div>
           </div>
         </Demo>
 
@@ -209,6 +272,7 @@ export default function UiKit() {
 
         <Demo id="accordion" title="Accordion" file="Accordion.jsx">
           <Accordion items={sample.faq} />
+          <Accordion variant="card" items={sample.faq} className="mt-8" />
         </Demo>
 
         <Demo id="tabs" title="Tabs" file="Tabs.jsx">

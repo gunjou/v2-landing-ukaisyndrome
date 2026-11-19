@@ -10,11 +10,12 @@ export async function loader() {
 
 // Pakai "/#..." agar anchor tetap berfungsi dari halaman selain beranda.
 const navLinks = [
-  { label: "Capaian", href: "/#capaian" },
   { label: "Mentor", href: "/#mentor" },
   { label: "Modul", href: "/#modul" },
+  { label: "Sebaran Kelas", href: "/#sebaran" },
   { label: "Program", href: "/#program" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Alumni", href: "/alumni" },
+  { label: "Blog", href: "/blog" },
 ];
 
 export default function SiteLayout() {
@@ -23,13 +24,19 @@ export default function SiteLayout() {
 
   return (
     <>
+      {/* Lewati navigasi: muncul hanya saat difokus keyboard */}
+      <a href="#konten" className="sr-only z-50 rounded-lg bg-accent px-4 py-2 font-bold text-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
+        Lewati ke konten
+      </a>
       <Navbar brand={site.name} links={navLinks} cta={{ label: "Masuk", href: site.loginUrl }} />
-      <Outlet />
+      <div id="konten" tabIndex={-1} className="outline-none">
+        <Outlet />
+      </div>
       <Footer
         brand={site.name}
         description={site.tagline}
         columns={[
-          { title: "Layanan", links: navLinks.slice(0, 4) },
+          { title: "Layanan", wide: true, links: [...navLinks, { label: "FAQ", href: "/#faq" }, { label: "Download Aplikasi", href: "/#download" }] },
           {
             title: "Bantuan",
             links: [
@@ -42,10 +49,10 @@ export default function SiteLayout() {
             links: [
               { label: site.phoneLabel, href: waLink },
               { label: site.email, href: `mailto:${site.email}` },
-              { label: "Instagram", href: site.instagram },
             ],
           },
         ]}
+        socials={site.socials}
         copyright={`© ${new Date().getFullYear()} Outlook-Project. All rights reserved.`}
       />
       <WhatsAppButton waLink={waLink} />

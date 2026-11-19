@@ -7,6 +7,10 @@ export default [
   layout("routes/site-layout.jsx", [
     index("routes/home.jsx"),
     ...legalPaths.map((p) => route(p, "routes/legal.jsx", { id: `legal-${p}` })),
+    route("program/:slug", "routes/program.jsx"),
+    route("alumni", "routes/alumni.jsx"),
+    route("blog", "routes/blog.jsx"),
+    route("blog/:slug", "routes/blog-post.jsx"),
   ]),
   // 404 di luar layout: path tak dikenal tidak di-prerender, jadi tidak boleh bergantung pada loader layout.
   route("*", "routes/not-found.jsx"),

@@ -17,7 +17,8 @@ export default function Tabs({ items, className }) {
 
   return (
     <div className={className}>
-      <div role="tablist" className="inline-flex rounded-lg bg-surface p-1" onKeyDown={onKeyDown}>
+      {/* Label tidak boleh terbelah; bila tetap tidak muat, daftar tab bisa digeser */}
+      <div role="tablist" className="inline-flex max-w-full overflow-x-auto rounded-lg bg-surface p-1" onKeyDown={onKeyDown}>
         {items.map((item, i) => (
           <button
             key={item.label}
@@ -29,7 +30,7 @@ export default function Tabs({ items, className }) {
             tabIndex={active === i ? 0 : -1}
             onClick={() => setActive(i)}
             className={cn(
-              "rounded-md px-4 py-2 text-sm font-semibold transition-colors duration-150",
+              "shrink-0 rounded-md px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors duration-150",
               active === i ? "bg-accent text-ink" : "text-fg-muted hover:text-fg",
             )}
           >

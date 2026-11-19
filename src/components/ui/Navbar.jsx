@@ -25,14 +25,14 @@ export default function Navbar({ brand = "Syndrome UKAI", links, cta }) {
       )}
     >
       <Container className="flex h-16 items-center justify-between md:h-20">
-        <a href="/" className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-fg">
+        <a href="/" className="flex items-center gap-2.5 text-lg font-bold tracking-tight whitespace-nowrap text-fg">
           <Logo title={null} />
           {brand}
         </a>
 
-        <nav aria-label="Utama" className="hidden items-center gap-8 md:flex">
+        <nav aria-label="Utama" className="hidden items-center gap-6 lg:flex xl:gap-8">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-sm font-medium text-fg-muted transition-colors hover:text-fg">
+            <a key={l.href} href={l.href} className="text-sm font-medium whitespace-nowrap text-fg-muted transition-colors hover:text-fg">
               {l.label}
             </a>
           ))}
@@ -41,7 +41,7 @@ export default function Navbar({ brand = "Syndrome UKAI", links, cta }) {
 
         <button
           type="button"
-          className="-mr-2 p-2 text-fg md:hidden"
+          className="-mr-2 p-2 text-fg lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Tutup menu" : "Buka menu"}
@@ -51,7 +51,7 @@ export default function Navbar({ brand = "Syndrome UKAI", links, cta }) {
         </button>
       </Container>
 
-      <nav id="mobile-nav" aria-label="Utama" hidden={!open} className="border-t border-line md:hidden">
+      <nav id="mobile-nav" aria-label="Utama" hidden={!open} className="border-t border-line lg:hidden">
         <Container className="flex flex-col py-4">
           {links.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="py-3 text-base font-medium text-fg-muted hover:text-fg">

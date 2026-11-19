@@ -13,5 +13,8 @@
 ## SEO
 Lihat **seo.md**. Ringkas: setiap route memakai `seo()` di `meta()`, satu `<h1>`, gambar ber-`alt` + ukuran, halaman publik masuk `pages` di `react-router.config.js`.
 
+## Aksesibilitas
+Lihat bagian Aksesibilitas di **design-tokens.md**. Ringkas: kontras lewat token, fokus terlihat, ornamen `aria-hidden`, tombol ikon ber-`aria-label`, tidak ada `aria-label` di elemen tanpa role (pakai teks `sr-only`).
+
 ## Bahasa
 - Konten, komentar, dan dokumentasi: Bahasa Indonesia.

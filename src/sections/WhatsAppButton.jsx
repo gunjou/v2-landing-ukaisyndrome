@@ -2,6 +2,8 @@ import { MessageCircle } from "lucide-react";
 
 export default function WhatsAppButton({ waLink }) {
   return (
+    // <aside> agar tombol melayang berada di dalam landmark (pembaca layar)
+    <aside aria-label="Hubungi admin">
     <a
       href={waLink}
       target="_blank"
@@ -11,5 +13,6 @@ export default function WhatsAppButton({ waLink }) {
     >
       <MessageCircle className="size-6" />
     </a>
+    </aside>
   );
 }

@@ -4,7 +4,7 @@ Domain kanonik: **https://ukaisyndrome.id** (`SITE_URL` di `src/seo.js` dan `rea
 
 ## Cara kerja
 - Semua halaman publik di-**prerender** jadi HTML statis berisi konten lengkap (lihat architecture.md).
-- Daftar halaman publik ada di **satu tempat**: `pages` di `react-router.config.js`. Dipakai untuk prerender **dan** `sitemap.xml` (dibuat otomatis di hook `buildEnd`).
+- Daftar halaman publik ada di **satu tempat**: `pages` di `react-router.config.js`. Dipakai untuk prerender **dan** `sitemap.xml` (dibuat otomatis di hook `buildEnd`). Path paket & artikel dibangkitkan dari `src/data/`. Prioritas sitemap: beranda 1.0, legal 0.3, lainnya 0.7.
 
 ## Meta per halaman: `seo()` (`src/seo.js`)
 Setiap route mengekspor `meta()` yang memanggil `seo({...})`:
@@ -31,8 +31,10 @@ Beranda memuat:
 |---|---|---|
 | `EducationalOrganization` | nama, logo, kontak, sosmed, link aplikasi | Knowledge panel / identitas brand |
 | `WebSite` | nama & URL situs | Nama situs di hasil pencarian |
-| `ItemList` of `Course` | 4 paket + harga (`Offer` IDR) | Rich result kursus |
+| `ItemList` of `Course` | 4 paket (nama, deskripsi dari `features`, URL halaman paket). Tanpa `Offer` karena harga tidak dipublikasikan | Rich result kursus |
 | `FAQPage` | semua FAQ | Data FAQ untuk mesin pencari & AI |
+
+Halaman lain: `/program/:slug` memuat `Course` (tanpa `Offer`), `/blog/:slug` memuat `Article`.
 
 Data diambil dari loader, jadi otomatis ikut berubah saat data dari admin berubah. Validasi: https://search.google.com/test/rich-results dan https://validator.schema.org setelah deploy.
 
@@ -57,7 +59,10 @@ Sumber gambar OG yang bisa diedit: `src/assets/og-image.source.svg` (render ulan
 4. Tambahkan path ke `pages` di `react-router.config.js`.
 5. Halaman non-publik (mis. 404, `/ui`): `noindex`.
 
+404 disajikan hosting dari `404.html` dengan status 404 (bukan rewrite ke `index.html`), sehingga alamat salah tidak diindeks sebagai halaman.
+
 ## Setelah deploy
+Langkah lengkap ada di deploy.md. Untuk SEO:
 - Daftarkan domain di Google Search Console, kirim `https://ukaisyndrome.id/sitemap.xml`.
 - Cek pratinjau link: https://www.opengraph.xyz.
 - Uji performa: PageSpeed Insights (target ≥ 90 di mobile).

@@ -28,7 +28,7 @@
   --color-line: #e9e6e3;
   --color-fg: #1f1a1a;
   --color-fg-muted: #5f5755;
-  --color-fg-subtle: #8d8582;
+  --color-fg-subtle: #736b68;
 
   /* Sorotan: berubah menurut tone (lihat .tone-brand) */
   --color-highlight: #a16207;
@@ -69,6 +69,121 @@
   }
 }
 
+/* Maskot (Mascot.jsx): bernapas, berkedip, membaca, membalik halaman, kapsul melayang */
+/* fill-box hanya untuk elemen beranimasi; elemen ber-atribut rotate(... cx cy) harus tetap view-box */
+[class*="mascot-"], [class*="mres-"] {
+  transform-box: fill-box;
+}
+.mascot-body { animation: mascot-bob 4s ease-in-out infinite; }
+.mascot-head { transform-origin: 50% 100%; animation: mascot-tilt 8s ease-in-out infinite; }
+.mascot-eyes { transform-origin: center; animation: mascot-blink 5s infinite; }
+.mascot-pupils { animation: mascot-read 8s ease-in-out infinite; }
+.mascot-hand { animation: mascot-bob 4s ease-in-out -0.4s infinite; }
+/* poros -5% = punggung buku (x 532) karena halaman kanan dimulai di x 552 */
+.mascot-page { transform-origin: -5% 50%; opacity: 0; animation: mascot-flip 8s ease-in-out infinite; }
+.mascot-float { animation: mascot-float 6s ease-in-out infinite; }
+.mascot-tassel { transform-origin: 50% 0; animation: mascot-swing 3s ease-in-out infinite; }
+
+@keyframes mascot-bob { 50% { transform: translateY(-14px); } }
+@keyframes mascot-swing { 50% { transform: rotate(12deg); } }
+@keyframes mascot-float { 50% { transform: translateY(-28px); } }
+@keyframes mascot-tilt { 0%, 40%, 100% { transform: rotate(0); } 50%, 85% { transform: rotate(-4deg); } }
+@keyframes mascot-blink { 0%, 46%, 50%, 100% { transform: scaleY(1); } 48% { transform: scaleY(0.1); } }
+@keyframes mascot-read {
+  0%, 100% { transform: translateX(-12px); }
+  25% { transform: translateX(12px); }
+  30% { transform: translateX(-12px); }
+  55% { transform: translateX(12px); }
+  60%, 85% { transform: translateX(0) translateY(-8px); }
+}
+@keyframes mascot-flip {
+  0%, 60% { opacity: 0; transform: scaleX(1); }
+  62% { opacity: 1; transform: scaleX(1); }
+  72% { opacity: 1; transform: scaleX(-1); }
+  74%, 100% { opacity: 0; transform: scaleX(-1); }
+}
+/* Bukti kelulusan (PassRate.jsx + MascotResult.jsx). Diputar ulang tiap .is-visible dari Reveal.
+   Kondisi dasar = kondisi akhir, jadi tanpa JS / reduced-motion semuanya langsung tampil. */
+.is-visible .pr-lit { animation: pr-lit 0.45s ease-out calc(0.3s + var(--i) * 0.15s) both; }
+.is-visible .pr-stamp { animation: pr-stamp 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) calc(1.9s + var(--i) * 0.15s) both; }
+.is-visible .al-stamp { animation: pr-stamp 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) 0.5s both; }
+.is-visible .st-fill-x { transform-origin: left; animation: st-fill-x 1.6s ease-out both; }
+.is-visible .st-fill-y { transform-origin: top; animation: st-fill-y 1.6s ease-out both; }
+.is-visible .st-dot { animation: st-dot 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) calc(var(--i) * 0.45s) both; }
+/* Modul: buku 3D (Modules.jsx). --t = tebal buku. Dasar = buku miring 34° menampakkan tumpukan halaman. */
+.mod-stage { perspective: 650px; }
+.mod-enter, .mod-sway, .mod-book { transform-style: preserve-3d; }
+.mod-book { transform: rotateY(-34deg) rotateX(4deg); }
+.mod-cover { transform-origin: left; transform: translateZ(calc(var(--t) / 2)); backface-visibility: hidden; transition: transform 0.6s ease; }
+.group:hover .mod-cover, .group:focus-visible .mod-cover { transform: translateZ(calc(var(--t) / 2)) rotateY(-40deg); }
+.mod-page1 { transform: translateZ(calc(var(--t) / 2 - 1px)); }
+.mod-back { transform: translateZ(calc(var(--t) / -2)); }
+.mod-pages {
+  right: calc(var(--t) / -2);
+  width: var(--t);
+  transform: rotateY(90deg);
+  background: repeating-linear-gradient(90deg, var(--color-bg) 0 2px, var(--color-line) 2px 3px);
+}
+.mod-sway { animation: mod-sway 6s ease-in-out calc(var(--i) * -2s) infinite; }
+.is-visible .mod-enter { animation: mod-enter 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 0.15s) both; }
+/* Sebaran kelas (Network.jsx): glow kota muncul berurutan, 5 kota teratas berdenyut */
+.is-visible .net-glow { animation: net-glow 0.6s ease-out calc(0.2s + var(--i) * 0.08s) both; }
+.net-pulse { animation: net-pulse 2.4s ease-out calc(var(--i) * 0.4s) infinite; }
+/* Footer.jsx Wordmark: cahaya heatmap (--hx/--hy) menyingkap tulisan. Bergeser sendiri; ikut kursor saat .is-tracking */
+@property --hx { syntax: "<length-percentage>"; inherits: true; initial-value: 50%; }
+@property --hy { syntax: "<length-percentage>"; inherits: true; initial-value: 50%; }
+.foot-mark { animation: foot-sweep 9s ease-in-out infinite alternate; }
+.foot-mark.is-tracking { animation: none; }
+.foot-heat-red { mask-image: radial-gradient(circle at var(--hx) var(--hy), black, transparent min(24vw, 20rem)); }
+.foot-heat-yellow { mask-image: radial-gradient(circle at var(--hx) var(--hy), black, transparent min(10vw, 8rem)); }
+/* Marquee.jsx: carousel tanpa ujung */
+.marquee-viewport { overflow: hidden; }
+.marquee { animation: marquee var(--dur) linear infinite; }
+.marquee-reverse { animation-direction: reverse; }
+/* berhenti hanya saat ditekan-tahan (mouse/sentuh) atau fokus keyboard, bukan saat hover */
+.marquee:active, .marquee:focus-within { animation-play-state: paused; }
+.is-visible .mres-head { transform-origin: 50% 100%; animation: mres-tense 1.8s ease-in-out both; }
+.is-visible .mres-stamp { transform-origin: center; animation: pr-stamp 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) 1.8s both; }
+.is-visible .mres-body { animation: mres-jump 0.9s ease-out 2.1s, mascot-bob 4s ease-in-out 3s infinite; }
+/* ledakan pertama serempak di 2.1s, lalu terus berhamburan bergiliran (--d per kepingan) */
+.is-visible .mres-confetti { animation: mres-confetti 1.6s ease-out calc(2.1s + var(--d)) infinite both; }
+.mres-confetti { opacity: 0; }
+/* wajah cemas → senyum tepat saat stempel LULUS (1.8s); dasar = senyum */
+.mres-anxious { opacity: 0; }
+.is-visible .mres-anxious { animation: mres-swap-out 1.8s step-end both; }
+.is-visible .mres-happy { animation: mres-swap-in 1.8s step-end both; }
+@keyframes mres-swap-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes mres-swap-in { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes pr-lit {
+  from { color: var(--color-line); transform: scale(0.8); }
+  60% { transform: translateY(-25%) scale(1.1); }
+  to { transform: none; }
+}
+@keyframes st-fill-x { from { transform: scaleX(0); } }
+@keyframes st-fill-y { from { transform: scaleY(0); } }
+@keyframes st-dot { from { transform: scale(0.6); background-color: var(--color-line); color: var(--color-fg-subtle); } }
+@keyframes mod-sway { 50% { transform: rotateY(8deg) translateY(-6px); } }
+@keyframes mod-enter { from { opacity: 0; transform: translateY(24px) rotateY(-60deg); } }
+@keyframes net-glow { from { opacity: 0; transform: scale(0); } }
+@keyframes net-pulse { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(4); } }
+@keyframes foot-sweep { from { --hx: 12%; --hy: 40%; } to { --hx: 88%; --hy: 65%; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes pr-stamp { from { opacity: 0; transform: scale(2.2) rotate(-6deg); } }
+@keyframes mres-tense { 30%, 85% { transform: scale(1.08) translateY(10px); } }
+@keyframes mres-jump { 25%, 65% { transform: translateY(-70px); } 45%, 100% { transform: none; } }
+@keyframes mres-confetti {
+  from { opacity: 1; transform: none; }
+  80% { opacity: 1; }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--r)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot *, .mres *, .pr-lit, .pr-stamp, .al-stamp, .marquee, .st-fill-x, .st-fill-y, .st-dot, .mod-sway, .mod-enter, .net-glow, .net-pulse, .foot-mark { animation: none !important; }
+  .mod-cover { transition: none; }
+  .marquee-viewport { overflow-x: auto; }
+}
+
 /*
  * Tone: area berlatar merah. Token netral ditimpa di dalam area ini sehingga semua
  * komponen (Heading, Text, Button secondary, Divider, ...) otomatis menyesuaikan.
@@ -78,10 +193,10 @@
 .tone-brand-dark {
   --color-fg: #ffffff;
   --color-fg-muted: #f3dada;
-  --color-fg-subtle: #d8a7a7;
+  --color-fg-subtle: #e8c4c4;
   --color-line: rgb(255 255 255 / 0.18);
   --color-surface: rgb(255 255 255 / 0.08);
-  --color-highlight: #eab308;
+  --color-highlight: #facc15;
   --color-highlight-mark: transparent;
   color: var(--color-fg);
 }
@@ -94,7 +209,7 @@
 .tone-light {
   --color-fg: #1f1a1a;
   --color-fg-muted: #5f5755;
-  --color-fg-subtle: #8d8582;
+  --color-fg-subtle: #736b68;
   --color-line: #e9e6e3;
   --color-surface: #f7f6f5;
   --color-highlight: #a16207;
