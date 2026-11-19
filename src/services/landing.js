@@ -12,7 +12,7 @@ export async function getLandingContent() {
 export const roundedPlus = (n) => `${Math.floor(n / 10) * 10}+`;
 
 // Cover modul 576×720 dari CDN; null bila env belum diisi → komponen menampilkan cover polos.
-const CDN = import.meta.env.NEXT_PUBLIC_CDN_ASSET_URL;
+const CDN = import.meta.env.VITE_CDN_ASSET_URL;
 const withCover = (m) => ({ ...m, cover: CDN && m.image ? { url: `${CDN}/${m.image}`, width: 576, height: 720 } : null });
 
 // timeZone UTC agar hasil sama saat prerender dan di browser (hindari hydration mismatch).

@@ -1,4 +1,5 @@
 import { ArrowRight, Check, Download, Info } from "lucide-react";
+import { Footer, Navbar } from "../components/layout";
 import {
   Accordion,
   Badge,
@@ -8,7 +9,6 @@ import {
   CountUp,
   Divider,
   Eyebrow,
-  Footer,
   Heading,
   Highlight,
   Logo,
@@ -21,7 +21,6 @@ import {
   Instagram,
   TikTok,
   MascotResult,
-  Navbar,
   Reveal,
   PageHeader,
   SectionHeader,

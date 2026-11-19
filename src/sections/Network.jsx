@@ -1,6 +1,6 @@
 import { CountUp, Highlight, Reveal, Section, SectionHeader } from "../components/ui";
 import { roundedPlus } from "../services/landing";
-import { DOTS, VIEWBOX, project } from "./indonesia-dots";
+import { DOTS, VIEWBOX, project } from "../data/indonesia-dots";
 
 // Sebaran kelas & mentor sebagai heatmap: peta Indonesia dot-matrix di panel maroon, tiap kota bersinar (kuning → merah)
 // sebesar jumlah kelompok belajarnya. 5 kota teratas berdenyut. Glow muncul berurutan saat masuk layar (.net-glow).

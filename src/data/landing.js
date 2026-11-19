@@ -79,7 +79,7 @@ export const mentors = [
   { id: "m6", name: "apt. Nama Mentor 6, M.Clin.Pharm.", photo: null, mode: "online", campus: "Universitas F", gpa: null, achievements: ["Apoteker rumah sakit", "Mentor SBA & farmakoterapi"] },
 ];
 
-// REAL. `image` = nama file cover di CDN (NEXT_PUBLIC_CDN_ASSET_URL), diubah jadi URL penuh di services.
+// REAL. `image` = nama file cover di CDN (VITE_CDN_ASSET_URL), diubah jadi URL penuh di services.
 export const modules = [
   { name: "Klinis", pages: 600, image: "modul_klinis.png", description: "Modul latihan soal klinis berisikan literatur yang jelas sesuai PERMENKES, DiPiro, WHO, dan Koda-Kimble." },
   { name: "Industri + SBA", pages: 450, image: "modul_industri_sba.png", description: "Modul dan latihan soal industri serta SBA, sesuai Farmakope edisi VI, Ansel, dan Kemenkes Kefarmasian." },

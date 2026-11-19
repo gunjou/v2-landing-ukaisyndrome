@@ -23,10 +23,11 @@ src/
   routes.js         Daftar route
   routes/           Satu file per halaman (export default komponen + export meta)
   components/ui/    Komponen umum (Button, Card, ...) — semua tampil di /ui (lihat components.md)
+  components/layout/ Navbar & Footer (kerangka halaman, dipakai site-layout.jsx)
   sections/         Bagian landing (Hero, Program, FAQ, ...) — merangkai komponen ui (tabel di bawah)
   assets/           Gambar yang di-import kode (logo: `logo-syndrome.svg` = sumber `Logo.jsx`; `logo-syndrome.png` = file asli; `og-image.source.svg` = sumber gambar OG)
   services/         Fungsi async pengambil data (landing.js, legal.js, blog.js) — nanti diganti API backend
-  data/             Isi konten sementara: landing.js (REAL + DUMMY), legal.js (REAL), blog.js (DUMMY)
+  data/             Isi konten sementara: landing.js (REAL + DUMMY), legal.js (REAL), blog.js (DUMMY), indonesia-dots.js (titik peta, statis)
   seo.js            Helper `seo()` untuk meta tiap halaman (lihat seo.md)
   seo-jsonld.js     Data terstruktur schema.org beranda
   index.css         Tailwind + token desain + animasi (lihat motion.md)
@@ -85,11 +86,11 @@ Lebar yang diuji (emulasi Chrome): 320, 360, 390, 768, 1024, 1280, 1920px. Tidak
 | `2xl` (1536) | `Container` melebar ke 7xl |
 
 ## Env (`.env`)
-`vite.config.js` memakai `envPrefix: ["VITE_", "NEXT_PUBLIC_"]` agar nama lama tetap dipakai. Semua nilainya publik (ikut ke browser), jangan simpan rahasia. Dibaca saat build: isi juga di env hosting (deploy.md).
+Env memakai prefix bawaan Vite `VITE_*` (dibaca lewat `import.meta.env`). Semua nilainya publik (ikut ke browser), jangan simpan rahasia. Dibaca saat build: isi juga di env hosting (deploy.md). Contoh: `.env.example`.
 | Variabel | Dipakai |
 |---|---|
-| `NEXT_PUBLIC_CDN_ASSET_URL` | Cover modul (`services/landing.js`). Kosong → cover polos |
-| `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_TUTORAI_API_URL` | Belum dipakai (backend & AI Tutor) |
+| `VITE_CDN_ASSET_URL` | Cover modul (`services/landing.js`). Kosong → cover polos |
+| `VITE_API_URL`, `VITE_TUTORAI_API_URL` | Belum dipakai (backend & AI Tutor) |
 
 ## Catatan dev
 - Karena `ssr: false`, saat development halaman dirender di browser (HTML awal kosong). Prerender berisi konten hanya terjadi di `npm run build`.
@@ -106,7 +107,7 @@ src/data/*.js  →  src/services/*.js  →  loader() di routes/*.jsx  →  useLo
 | `legal.js`: `getLegalPage` (+ `related`), `legalSlugs` | 4 halaman legal |
 
 - `loader` berjalan **saat build** (prerender), jadi seluruh konten tertanam di HTML → terbaca Google.
-- Komponen dan section tidak pernah mengimpor `data/` langsung.
+- Komponen dan section tidak pernah mengimpor `data/` langsung. Pengecualian: `data/indonesia-dots.js` (geometri peta tetap, bukan konten backend) diimpor langsung oleh `Network.jsx`.
 - Bentuk item `alumni` = kontrak API backend (dicatat di komentar `data/landing.js`): `id`, `name`, `campus`, `photo` (`{url,width,height}` | `null`), `period`, `program`, `score` (skor akhir | `null`), `story`.
 - Bentuk item `mentors` = kontrak API backend: `id`, `name` (dengan gelar), `photo` (`{url,width,height}` | `null`, potret), `mode` (`online`/`offline`), `campus`, `gpa` (skala 4.00 | `null`), `achievements` (1–3 poin).
 - Bentuk `network` = kontrak API backend: `mentors` (jumlah mentor unik, juga mengisi statistik "Mentor apoteker" di hero lewat `getLandingContent()` + `roundedPlus()`), `cities: [{ city, groups, lng, lat }]`. Total kelompok & jumlah kota dihitung di komponen. Kota baru cukup diberi `lng`/`lat`.
@@ -121,20 +122,20 @@ Alur cerita: janji (Hero) → bukti angka & manusia (kelulusan, alumni) → siap
 
 | Section | File | Tone | Anchor | Data |
 |---|---|---|---|---|
-| Navbar | `components/ui/Navbar` via `site-layout.jsx` | brand | — | `site` |
+| Navbar | `components/layout/Navbar` via `site-layout.jsx` | brand | — | `site` |
 | Hero + maskot + statistik | `Hero.jsx` (maskot: `components/ui/Mascot`) | brand | — | `site`, `stats` |
 | Bukti kelulusan ("x dari 10" kepala maskot nasional vs Syndrome, tidak lulus = wajah sedih, tab CBT/OSCE, stempel per periode + jumlah siswa, maskot di dalam panel tab sehingga animasinya diulang saat ganti CBT/OSCE, maskot membuka pengumuman) | `PassRate.jsx` | muted | `#kelulusan` | `passRates` |
 | Wall of Alumni (bukti manusia, semua alumni dari services; kartu "lembar hasil UKAI" = strip merah + sobekan + stempel LULUS & skor akhir, foto kosong → `MascotFace`; `Marquee` ke kiri) | `AlumniWall.jsx` (`AlumniCard` juga di `/alumni`) | default | `#alumni` | `alumni` |
 | Mentor (kartu ala poster: foto/`MascotFace` di area merah, pita nama kuning, IPK + bar 4.00, poin prestasi; `Marquee` bergerak ke kanan) | `Mentors.jsx` | muted | `#mentor` | `mentors` |
 | Modul (mockup buku 3D CSS: cover dari CDN, tebal sesuai jumlah halaman, di atas rak; hover/fokus = cover terbuka) | `Modules.jsx` | default | `#modul` | `modules` (`image` → `cover` di services) |
-| Sebaran kelas & mentor (heatmap: peta Indonesia dot-matrix di panel maroon, glow kota sebesar jumlah kelompok, 5 teratas berdenyut; statistik mentor/kelompok/kota; peringkat 6 kota + chip kota lain) | `Network.jsx` (+ `indonesia-dots.js`: titik peta & `project(lng, lat)`) | muted | `#sebaran` | `network` |
+| Sebaran kelas & mentor (heatmap: peta Indonesia dot-matrix di panel maroon, glow kota sebesar jumlah kelompok, 5 teratas berdenyut; statistik mentor/kelompok/kota; peringkat 6 kota + chip kota lain) | `Network.jsx` (+ `data/indonesia-dots.js`: titik peta & `project(lng, lat)`) | muted | `#sebaran` | `network` |
 | Alur belajar (jalur progres: garis merah terisi, titik menyala berurutan, kartu langkah ringkas (ikon sebaris judul), padding section lebih kecil (`py-12 md:py-16`), langkah terakhir dicap LULUS; vertikal di mobile, horizontal mulai `md`) | `Steps.jsx` | default | — | `steps` |
 | Program + garansi, **tanpa harga** (kartu ala etiket: kepala bergaris putus + jumlah pertemuan, bar pertemuan, tombol "Tanya harga" ke WA, fitur yang tidak ada dicoret; favorit = bingkai emas + pita PALING DIPILIH + dinaikkan; stempel GARANSI LULUS) | `Programs.jsx` | brand | `#program` | `programs`, `sharedFeatures`, `guaranteeTerms` |
 | FAQ (jawab keberatan; `Accordion variant="card"`, kolom kiri menempel dengan gelembung chat + maskot ke admin WA) | `Faq.jsx` | muted | `#faq` | `faqs` |
 | Blog & materi (3 artikel terbaru, `PostCard` dipakai juga di `/blog`: sampul foto atau "etiket" merah berikon kategori; mobile carousel geser) | `BlogPreview.jsx` | default | `#blog` | `posts` (dari `getPosts()` di loader beranda) |
 | CTA penutup ("Giliranmu jadi apoteker": kotak merah dua kolom + `MascotGraduate` sebagai penutup cerita maskot, tombol Konsultasi gratis (WA) + Lihat program, bukti sosial jumlah siswa) | `ClosingCta.jsx` | kotak brand | — | `stats[0]` |
 | Download app (dua kolom: poin fitur `site.appFeatures` + tombol toko ala badge; mockup ponsel HTML berisi progres, skor tryout aplikasi + stempel LULUS, modul) | `DownloadApp.jsx` | brand (merah, beda dari footer maroon) | `#download` | `site` |
-| Footer (logo, sosmed, Layanan 2 kolom, Bantuan, Hubungi Kami, wordmark heatmap) | `components/ui/Footer` via `site-layout.jsx` | brand-dark | — | `site`, `site.socials` |
+| Footer (logo, sosmed, Layanan 2 kolom, Bantuan, Hubungi Kami, wordmark heatmap) | `components/layout/Footer` via `site-layout.jsx` | brand-dark | — | `site`, `site.socials` |
 | Tombol WA melayang | `WhatsAppButton.jsx` via `site-layout.jsx` | — | — | `site.whatsapp` |
 
 Tanggal artikel diformat dengan `formatDate()` (timeZone UTC) agar hasil build dan browser sama.

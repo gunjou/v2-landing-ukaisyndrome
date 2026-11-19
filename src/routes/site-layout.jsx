@@ -1,5 +1,5 @@
 import { Outlet, useLoaderData } from "react-router";
-import { Footer, Navbar } from "../components/ui";
+import { Footer, Navbar } from "../components/layout";
 import WhatsAppButton from "../sections/WhatsAppButton";
 import { getSiteInfo } from "../services/landing";
 

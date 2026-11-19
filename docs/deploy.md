@@ -11,18 +11,18 @@ Tidak perlu server Node saat berjalan. Folder itu cukup diunggah ke hosting stat
 | Build | `npm run build` |
 | Folder yang diunggah | `build/client` |
 | Halaman 404 | `build/client/404.html` (salinan `__spa-fallback.html`, dibuat otomatis saat build) |
-| Env saat build | `NEXT_PUBLIC_CDN_ASSET_URL` (lihat di bawah) |
+| Env saat build | `VITE_CDN_ASSET_URL` (lihat di bawah) |
 
 ## 1. Siapkan env
 Env dibaca **saat build**, bukan saat situs berjalan. Isi di `.env` (lokal) atau di pengaturan "Environment variables" milik hosting/CI.
 
 | Variabel | Wajib | Fungsi |
 |---|---|---|
-| `NEXT_PUBLIC_CDN_ASSET_URL` | ya | Alamat CDN untuk cover modul. Kosong → buku modul tampil polos |
-| `NEXT_PUBLIC_API_URL` | belum | Disiapkan untuk backend |
-| `NEXT_PUBLIC_TUTORAI_API_URL` | belum | Disiapkan untuk AI Tutor |
+| `VITE_CDN_ASSET_URL` | ya | Alamat CDN untuk cover modul. Kosong → buku modul tampil polos |
+| `VITE_API_URL` | belum | Disiapkan untuk backend |
+| `VITE_TUTORAI_API_URL` | belum | Disiapkan untuk AI Tutor |
 
-Semua `NEXT_PUBLIC_*` ikut terbaca di browser. **Jangan menaruh rahasia** (token, kunci API privat) di sini.
+Semua `VITE_*` ikut terbaca di browser. **Jangan menaruh rahasia** (token, kunci API privat) di sini.
 
 ## 2. Build & cek lokal
 ```bash
@@ -47,7 +47,7 @@ Hubungkan repo, lalu isi:
 | Build command | `npm run build` |
 | Output / publish directory | `build/client` |
 | Node version | 20 atau lebih baru |
-| Environment variables | `NEXT_PUBLIC_CDN_ASSET_URL`, dst. |
+| Environment variables | `VITE_CDN_ASSET_URL`, dst. |
 
 `404.html` otomatis dipakai untuk alamat yang tidak dikenal. **Jangan** mengaktifkan aturan "rewrite semua ke `index.html`" (pola SPA biasa): halaman yang tidak ada akan tampil sebagai beranda dengan status 200, buruk untuk SEO.
 
@@ -98,6 +98,6 @@ Konten (alumni, mentor, artikel, paket, data peta) ikut tertanam di HTML saat bu
 | Gejala | Penyebab & solusi |
 |---|---|
 | Alamat tak dikenal menampilkan beranda | Ada rewrite "semua ke index.html" di hosting. Hapus; biarkan `404.html` yang dipakai |
-| Cover modul polos | `NEXT_PUBLIC_CDN_ASSET_URL` tidak diisi di env build hosting. Isi lalu build ulang |
+| Cover modul polos | `VITE_CDN_ASSET_URL` tidak diisi di env build hosting. Isi lalu build ulang |
 | Konten baru tidak muncul | Belum build ulang, atau HTML ter-cache. Build ulang; pastikan HTML `no-cache` |
 | Halaman `/program/xyz` atau `/blog/xyz` baru 404 | Slug belum ada di data saat build (daftar `pages`). Tambah data lalu build ulang |

@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { Instagram, TikTok } from "./BrandIcons";
-import { cn } from "./cn";
-import Container from "./Container";
-import Logo from "./Logo";
+import { Instagram, TikTok } from "../ui/BrandIcons";
+import { cn } from "../ui/cn";
+import Container from "../ui/Container";
+import Logo from "../ui/Logo";
 
 const SOCIAL_ICONS = { Instagram, TikTok };
 

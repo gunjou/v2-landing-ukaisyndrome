@@ -6,6 +6,7 @@
 
 ## Komponen
 - Komponen umum ada di `src/components/ui/`, satu file per komponen, nama PascalCase.
+- Komponen kerangka halaman (Navbar, Footer) ada di `src/components/layout/`.
 - Setiap komponen umum baru **wajib** ditampilkan (semua varian) di halaman `/ui` dan dicatat di `components.md` (dibuat bersama komponen pertama).
 - Styling hanya pakai class Tailwind + token. Tanpa hex langsung, tanpa file CSS per komponen.
 - Konten tidak di-hardcode di komponen; ambil dari `services/`.

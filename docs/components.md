@@ -1,6 +1,7 @@
 # Komponen UI
 
 Lokasi: `src/components/ui/`. Impor lewat barrel: `import { Button, Card } from "../components/ui"`.
+Navbar & Footer ada di `src/components/layout/` (impor dari `"../components/layout"`), tetap ditampilkan di `/ui`.
 Lihat semua contoh hidup di **http://localhost:5173/ui** (hanya saat `npm run dev`).
 
 Komponen baru wajib: (1) ditambahkan ke `index.js`, (2) didemokan di `src/routes/ui.jsx`, (3) dicatat di tabel ini.

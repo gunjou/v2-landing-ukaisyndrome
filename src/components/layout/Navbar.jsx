@@ -1,9 +1,9 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import Button from "./Button";
-import Container from "./Container";
-import Logo from "./Logo";
-import { cn } from "./cn";
+import Button from "../ui/Button";
+import Container from "../ui/Container";
+import Logo from "../ui/Logo";
+import { cn } from "../ui/cn";
 
 // links: [{ label, href }], cta: { label, href }
 export default function Navbar({ brand = "Syndrome UKAI", links, cta }) {

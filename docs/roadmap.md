@@ -84,7 +84,7 @@ Tampilan dipoles di 7B **setelah kerangka disetujui**. Data asli menyusul di 7C.
 - [x] Wall of Alumni: kartu "lembar hasil UKAI" (strip merah, sobekan, stempel LULUS + skor akhir, foto alumni atau avatar maskot bila tanpa foto), carousel otomatis tanpa ujung (marquee, tanpa navigasi); data alumni distandarkan untuk backend
 - [x] Halaman `/alumni`: hanya daftar alumni (section bukti kelulusan dihapus), header dengan maskot wisuda (`MascotGraduate`)
 - [x] Alur belajar: jalur progres beranimasi + kartu langkah berikon, langkah terakhir dicap LULUS
-- [x] Modul: mockup buku fisik 3D (cover dari CDN `NEXT_PUBLIC_CDN_ASSET_URL`) di atas rak, animasi masuk + goyang + cover terbuka saat hover
+- [x] Modul: mockup buku fisik 3D (cover dari CDN `VITE_CDN_ASSET_URL`) di atas rak, animasi masuk + goyang + cover terbuka saat hover
 - [x] Mentor: kartu ala poster (foto, pita nama, IPK, prestasi) dengan data standar backend, carousel tanpa ujung (`Marquee`, dipakai juga Alumni)
 - [x] Sebaran kelas & mentor (dulu "Capaian"): heatmap sebaran kelompok belajar (34 kota, 271 kelompok, 224 mentor — data Nov 2026) di peta dot-matrix
 - [x] Program: kartu ala etiket, harga dihapus (tanya harga via WA), data `features` standar backend, perbandingan fitur (yang tidak ada dicoret), paket favorit menonjol, stempel GARANSI LULUS
@@ -136,3 +136,5 @@ Daftar lengkap & prioritas: data-real.md. Kontrak backend: api.md.
 - 2026-11-19: Maskot mentor (`MascotMentor`) dihapus dari section Mentor beserta komponen & animasinya.
 - 2026-11-19: Panduan deploy dibuat (`docs/deploy.md`). Build kini juga menulis `404.html` (salinan `__spa-fallback.html`) agar hosting statis langsung menampilkan halaman 404; `engines.node >= 20`. Semua dokumen diselaraskan dengan kode.
 - 2026-11-19: Cek aksesibilitas. Token `fg-subtle` digelapkan (`#736b68`), `highlight` di area merah jadi `#facc15`, `fg-subtle` di area merah `#e8c4c4` (semua ≥ 4.5:1). Ditambah tautan "Lewati ke konten", carousel bisa difokus, tombol WA di dalam landmark, label 404 diperbaiki.
+- 2026-11-19: Prefix env diganti dari `NEXT_PUBLIC_*` ke `VITE_*` (bawaan Vite, `envPrefix` dihapus), ditambah `.env.example`. Navbar & Footer dipindah dari `components/ui/` ke `components/layout/`.
+- 2026-11-19: `indonesia-dots.js` (data titik peta) dipindah dari `sections/` ke `data/`.

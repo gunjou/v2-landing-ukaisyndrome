@@ -7,7 +7,7 @@ Daftar isi yang harus diisi admin: [data-real.md](data-real.md).
 ## Prinsip
 - **Hanya baca (GET), publik, tanpa login.** Landing tidak menulis data apa pun; pendaftaran lewat WhatsApp.
 - **Dipanggil saat build, bukan oleh pengunjung.** Semua `loader` jalan saat `npm run build` (prerender). Jadi beban API hanya sekali per build, dan API boleh lambat sedikit. Konsekuensinya: **setiap admin menyimpan, situs harus di-build ulang** (lihat bagian Deploy hook).
-- Base URL: `NEXT_PUBLIC_API_URL` (mis. `https://api.ukaisyndrome.id/v1`).
+- Base URL: `VITE_API_URL` (mis. `https://api.ukaisyndrome.id/v1`).
 - Format: JSON, UTF-8. Dibungkus format respons standar backend, mis. `{ "data": ... }`. Contoh di bawah hanya menulis isi `data`.
 - Tanggal: ISO `YYYY-MM-DD`. Gambar: objek `{ url, width, height }` (URL absolut, ukuran piksel asli) atau `null`.
 - Teks polos (tanpa HTML), agar aman ditampilkan.
@@ -119,7 +119,7 @@ Urut sesuai keinginan admin (beranda menampilkan semuanya dalam carousel; halama
 ```json
 [{ "name": "Klinis", "pages": 600, "image": "modul_klinis.png", "description": "..." }]
 ```
-- `image`: nama file di CDN (`NEXT_PUBLIC_CDN_ASSET_URL`), atau ganti dengan objek `cover: { url, width, height }` (lalu hapus perakitan URL di `services/landing.js`). Cover sekarang 576×720 (4:5).
+- `image`: nama file di CDN (`VITE_CDN_ASSET_URL`), atau ganti dengan objek `cover: { url, width, height }` (lalu hapus perakitan URL di `services/landing.js`). Cover sekarang 576×720 (4:5).
 - `pages` menentukan tebal buku 3D.
 
 ## 7. `GET /network`
@@ -225,7 +225,7 @@ Karena konten tertanam saat build, backend perlu **memicu build ulang** setiap a
 Lihat juga [deploy.md](deploy.md).
 
 ## Perubahan di frontend saat API siap
-1. `src/services/landing.js` & `src/services/blog.js`: ganti `return data...` dengan `fetch(`${import.meta.env.NEXT_PUBLIC_API_URL}/...`)`; bentuk hasil tetap. Gagal fetch → build gagal (lebih aman daripada situs kosong).
+1. `src/services/landing.js` & `src/services/blog.js`: ganti `return data...` dengan `fetch(`${import.meta.env.VITE_API_URL}/...`)`; bentuk hasil tetap. Gagal fetch → build gagal (lebih aman daripada situs kosong).
 2. `react-router.config.js`: daftar `pages` untuk `/program/{id}` & `/blog/{slug}` diambil dari `GET /programs` & `GET /posts` (bukan dari `src/data/`).
-3. `src/data/` dihapus (kecuali `legal.js`) setelah semua endpoint dipakai.
+3. `src/data/` dihapus (kecuali `legal.js` & `indonesia-dots.js`) setelah semua endpoint dipakai.
 4. Perbarui architecture.md (alur data) & centang roadmap.
